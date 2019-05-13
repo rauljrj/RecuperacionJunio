@@ -5,7 +5,7 @@ function buscarPilotos(piloto){
     var div = document.createElement("div");
     var error = document.createTextNode("ERROR: no se ha encontrado el piloto");   
     $.ajax({
-        url:"http://ergast.com/api/f1/drivers/" + $("#introducirPiloto").val(),
+        url:"https://ergast.com/api/f1/drivers/" + $("#introducirPiloto").val(),
         success: function(respuesta){
                 encontrado = true;
                 encontrarPiloto(respuesta);
