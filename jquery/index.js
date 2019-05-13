@@ -69,7 +69,7 @@ $(window).scroll(function () {
             carga++;
             peticionScroll = false;
             $.ajax({
-                url: "http://ergast.com/api/f1/drivers/" + $("#introducirPiloto").val() + carga,
+                url: "https://ergast.com/api/f1/drivers/" + $("#introducirPiloto").val() + carga,
                 success: function (nueva) {
                     encontrarPiloto(nueva);
                     peticionScroll = true;
