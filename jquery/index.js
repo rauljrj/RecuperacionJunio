@@ -22,31 +22,24 @@ function buscarPilotos(piloto){
 
 
 
-function mostrarDetalle() {
-var pilotos = piloto.getElementsByTagName("Driver");
-  for (var i = 0; i < pilotos.length; i++) {  
- $("#piloto").append('<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">' +
-  '<div class="modal-dialog modal-dialog-centered" role="document">' +
-    '<div class="modal-content">' +
-      '<div class="modal-header">' +
-        '<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>' +
-        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-          '<span aria-hidden="true">&times;</span>' +
-        '</button>' +
-      '</div>' +
-      '<div class="modal-body">Nombre: '+ pilotos[i].childNodes[1].innerHTML + '<br>' + 'Apellido: ' +  pilotos[i].childNodes[3].innerHTML + '<br>' + 'Nacimiento: ' + pilotos[i].childNodes[5].innerHTML + '<br>' + 'Nacionalidad: ' + pilotos[i].childNodes[7].innerHTML +
-      '<div class="modal-footer">' +
-        '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>' +
-        '<button type="button" class="btn btn-primary">De acuerdo</button>' +
-      '</div>'+
-    '</div>' +
-  '</div>' +
-'</div>')
-  }
+function mostrarDetalle(id) {
+     $.ajax({
+        url:"https://ergast.com/api/f1/drivers/" + id,
+        success: function(respuesta){
+                encontrado = true;
+                console.log(respuesta);
+                $("#piloto").hide();
+                $("#detalle").show();
+                $("#detalle").append('<div style=text-align:center>' + '<table border= "1px solid black;" style="margin: 0 auto;">' + '<tr><th>Nombre </th>' + '<th>Apellido </th>' + '<th>Nacimiento </th>' + '<th>Nacionalidad </th></tr>' + '<tr><td>' + respuesta.getElementsByTagName("GivenName")[0].innerHTML+ '</td>' + '<td>' + respuesta.getElementsByTagName("FamilyName")[0].innerHTML + '</td><td>'  + respuesta.getElementsByTagName("DateOfBirth")[0].innerHTML + '</td><td>' + respuesta.getElementsByTagName("Nationality")[0].innerHTML + '</td></tr>' + '<tr><td rowspan=3><a href="index.html">volver</a></td></tr>' + '</table></div>' );
+            
+        }
+        });
 }
 
 function encontrarPiloto(piloto){
     if (encontrado === true) {
+        $("#piloto").show();
+        $("#detalle").hide();
         $("#piloto").append('<p><a style="text-align: center">Resultados para:<p> <h4 style="display:inline-block;">' + $("#introducirPiloto").val() + '</h4></a></p><hr>');
     }
     encontrado = false;
@@ -57,7 +50,7 @@ function encontrarPiloto(piloto){
             '   <div class="card-body" style="background-color: yellow">\n' +
             '    <a class="card-nombre" href="#" onclick="mostrarDetalle(\'' + pilotos[i].childNodes[3].innerHTML + '\')">' + pilotos[i].childNodes[1].innerHTML + '<br>' + pilotos[i].childNodes[3].innerHTML + ' </a>\n' +
             '    <p class="card-text">' + '</p>\n' +
-            '    <p class="btn btn-primary col-6 offset-3" style="color: white" onclick="mostrarDetalle(\'' + pilotos[i].childNodes[1].innerHTML + '\')">Ver detalle</p>\n' +
+            '    <p class="btn btn-primary col-6 offset-3" style="color: white" onclick="mostrarDetalle(\'' + pilotos[i].childNodes[3].innerHTML + '\')">Ver detalle</p>\n' +
             '  </div>\n' +
             '</div>');
     }
